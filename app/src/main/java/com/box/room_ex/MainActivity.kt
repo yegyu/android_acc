@@ -2,6 +2,7 @@ package com.box.room_ex
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.RoomMasterTable
@@ -18,18 +19,17 @@ class MainActivity : AppCompatActivity() {
             "todo-db"
         ).allowMainThreadQueries().build()
 
-        refreshResult(db)
+        //refresh UI
+        db.todoDao().getAll().observe(this,
+            Observer {
+                result_text.text = it.toString()
+            })
         add_btn.setOnClickListener {
             db.todoDao().insert(Todo(todo_edit.text.toString()))
-            refreshResult(db)
         }
         remove_btn.setOnClickListener {
             db.todoDao().delete(todo_edit.text.toString().toInt())
-            refreshResult(db)
         }
-    }
-    fun  refreshResult(db:AppDatabase){
-        result_text.text = db.todoDao().getAll().toString()
     }
 
 }
