@@ -10,11 +10,11 @@ interface TodoDao {
     fun getAll() : LiveData<List<Todo>>
 
     @Insert
-    fun insert(todo: Todo)
+    suspend fun insert(todo: Todo)
 
     @Update
-    fun update(todo: Todo)
+    suspend fun update(todo: Todo)
 
     @Query("DELETE FROM TODO WHERE ID = :id")
-    fun delete(id:Int)
+    suspend fun delete(id:String)
 }
